@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <script>
+      var DISTRICTS_BASE =
+      [
+        "Innere Stadt",
+        "Leopoldsstadt",
+        "Landstraße",
+        "Wieden",
+        "Margareten",
+        "Mariahilf",
+        "Neubau",
+        "Josefstadt",
+        "Alsergrund",
+        "Favoriten",
+        "Simmering",
+        "Meidling",
+        "Hietzing",
+        "Penzing",
+        "Rudolfsheim-Fünfhaus",
+        "Ottakring",
+        "Hernals",
+        "Währing",
+        "Döbling",
+        "Brigittenau",
+        "Floridsdorf",
+        "Donaustadt",
+        "Liesing"
+      ];
+      
+      var DISTRICTS = [];
+      
+      
+      var MODE_NUMBER = 0;
+      var MODE_NAME = 1;
+      var DISTRICTS_SHOWN = false;
+      
+      var MODE = MODE_NUMBER;
+      var IDX = -1;
+      function showNumber ()
+      {
+        var aDiv = document.getElementById("presentation");
+        if (DISTRICTS.length === 0)
+        {
+          alert("Geschafft! Noch einmal!");
+          document.location.reload();
+          return;
+        }
+        var nIndex = Math.ceil(Math.random()*DISTRICTS.length);
+        IDX = nIndex-1;
+        aDiv.innerHTML = DISTRICTS[IDX].idx;
+        MODE = MODE_NUMBER;
+      }
+      
+      function showName ()
+      {
+        var aDiv = document.getElementById("presentation");
+        aDiv.innerHTML = DISTRICTS [IDX].name;
+        MODE = MODE_NAME;
+        DISTRICTS.splice (IDX, 1);
+      }
+      
+      function switchMode ()
+      {
+        if (MODE === MODE_NUMBER)
+        {
+          showName ();
+          return;
+        }
+        showNumber ();
+      }
+      
+      function showDistricts ()
+      {
+        var aBtn = document.getElementById("btn_cheat");
+        var aDiv = document.getElementById("cheat");
+        if (DISTRICTS_SHOWN)
+        {
+          aDiv.innerHTML = "";
+          aBtn.innerHTML = "Bezirke anzeigen";
+          DISTRICTS_SHOWN = false;
+          return;
+        }
+        var sHTML = "";
+        for (var i = 0; i < DISTRICTS_BASE.length;++i)
+        {
+          sHTML+="<span>"+(i+1)+": "+DISTRICTS_BASE[i]+"</span><br/>";
+        }
+        aDiv.innerHTML = sHTML;
+        aBtn.innerHTML = "Bezirke verbergen";
+        DISTRICTS_SHOWN = true;
+      }
+      
+      function setup ()
+      {
+        for (var i = 0; i < DISTRICTS_BASE.length;++i)
+        {
+          DISTRICTS[i] = {idx: i+1, name: DISTRICTS_BASE[i]};
+        }
+      }
+    </script>
+  </head>
+  <body onload="setup();showNumber ();">
+    <table style="width:100%;height:100%;">
+      <tr>
+        <td style="width:80%;height:100%;" onClick="switchMode();">
+          <div id="presentation" width="80%" height="100%" style="align:center; width:100%;height:100%;font-size: 50px; line-height:100%;display:grid; place-items:center;"></div>
+        </td>
+        <td>
+          <div style="width:100%;"><button id="btn_cheat" onClick="showDistricts();" style="position:absolute;top:0;">Bezirke anzeigen</button></div>
+          <div id="cheat" style="display:grid;"></div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
